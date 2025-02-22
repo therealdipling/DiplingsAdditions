@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections;
+using HarmonyLib;
+using DiplingsAdditions;
+using UnityEngine;
+using System.Xml.Linq;
+
+internal class Music
+{
+    internal static bool playing = false;
+    internal static IEnumerator PlayLevelMusic(AudioClip intro, AudioClip music)
+    {
+        playing = true;
+        yield return (object)new WaitForSeconds(0.2f);
+        HUDManager.Instance.UIAudio.PlayOneShot(intro);
+        yield return (object)new WaitForSeconds(intro.length);
+        while (MusicPatches.inside)
+        {
+            HUDManager.Instance.UIAudio.PlayOneShot(music);
+            yield return (object)new WaitForSeconds(music.length);
+        }
+        playing = false;
+    }
+}
