@@ -1,9 +1,0 @@
-{
-    "name": "DiplingsAdditions",
-    "version_number": "1.0.3",
-    "website_url": "",
-    "description": "Just some assets replacements among other things for the funny",
-    "dependencies": [
-        "BepInEx-BepInExPack-5.4.2100"
-    ]
-}
