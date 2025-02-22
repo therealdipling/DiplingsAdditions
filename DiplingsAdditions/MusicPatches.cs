@@ -11,33 +11,52 @@ using System.Collections.Generic;
 internal class MusicPatches
 {
     static internal bool inside = false;
+    static internal AudioClip intro = null;
+    static internal AudioClip music = null;
+    static internal List<AudioClip> Musics = DiplingsAdditionsBase.SoundFX;
 
     [HarmonyPatch(typeof(EntranceTeleport), "TeleportPlayer")]
     [HarmonyPrefix]
     private static void EntranceTeleportPreTeleportPlayer(EntranceTeleport __instance)
     {
-        AudioClip intro;
-        AudioClip music;
-        List<AudioClip> Musics = DiplingsAdditionsBase.SoundFX;
         if (!inside)
         {
+            DiplingsAdditionsBase.mls.LogInfo("About to enter dungeon...");
+            inside = true;
             if (!Music.playing)
             {
                 switch (RoundManager.Instance.currentDungeonType)
                 {
+                    case 0:
+                        DiplingsAdditionsBase.mls.LogInfo("Dungeon type is Factory.");
+                        break;
                     case 1:
-                        inside = true;
+                        DiplingsAdditionsBase.mls.LogInfo("Dungeon type is Manor.");
                         intro = Musics[0];
                         music = Musics[1];
-                        ((MonoBehaviour)(object)__instance).StartCoroutine(Music.PlayLevelMusic(intro, music));
                         break;
+                    case 2:
+                        DiplingsAdditionsBase.mls.LogInfo("Dungeon type is Mineshaft.");
+                        break;
+                    default:
+                        DiplingsAdditionsBase.mls.LogError("Unknown dungeon type. No music can play.");
+                        break;
+                }
+                if (music != null)
+                {
+                    if (intro != null)
+                    {
+                        ((MonoBehaviour)(object)__instance).StartCoroutine(Music.PlayLevelMusicWithIntro(intro, music));
+                    }
                 }
             }
         }
         else
         {
+            DiplingsAdditionsBase.mls.LogInfo("About to exit dungeon...");
             inside = false;
-            HUDManager.Instance.UIAudio.Stop();
+            intro = null;
+            music = null;
         }
     }
 
@@ -45,6 +64,7 @@ internal class MusicPatches
     [HarmonyPostfix]
     private static void StartOfRoundPostSetShipReadyToLand()
     {
+        DiplingsAdditionsBase.mls.LogInfo("Reset inside bool.");
         inside = false;
     }
 
@@ -52,6 +72,7 @@ internal class MusicPatches
     [HarmonyPostfix]
     private static void StartOfRoundPostAwake()
     {
+        DiplingsAdditionsBase.mls.LogInfo("Reset inside bool.");
         inside = false;
     }
 }

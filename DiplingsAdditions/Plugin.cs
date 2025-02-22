@@ -19,7 +19,7 @@ namespace DiplingsAdditions
 
         private static DiplingsAdditionsBase Instance;
 
-        internal ManualLogSource mls;
+        internal static ManualLogSource mls;
 
         internal static List<AudioClip> SoundFX;
         internal static AssetBundle Bundle;
@@ -32,14 +32,13 @@ namespace DiplingsAdditions
             }
 
             mls = BepInEx.Logging.Logger.CreateLogSource(modGUID);
+            mls.LogInfo("The logger has been created!");
 
-            mls.LogInfo("Dipling's Additions is about to patch...");
-
+            mls.LogInfo("The mod is about to patch...");
             harmony.PatchAll();
+            mls.LogInfo("The mod has patched successfully!");
 
-            mls.LogInfo("Dipling's Additions has patched successfully!");
-
-
+            mls.LogInfo("The asset bundle is about to load...");
             SoundFX = new List<AudioClip>();
             string folderLocation = Instance.Info.Location;
             folderLocation = folderLocation.TrimEnd("DiplingsAdditions.dll".ToCharArray());

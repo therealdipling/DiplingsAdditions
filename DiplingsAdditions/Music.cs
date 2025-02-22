@@ -8,8 +8,9 @@ using System.Xml.Linq;
 internal class Music
 {
     internal static bool playing = false;
-    internal static IEnumerator PlayLevelMusic(AudioClip intro, AudioClip music)
+    internal static IEnumerator PlayLevelMusicWithIntro(AudioClip intro, AudioClip music)
     {
+        DiplingsAdditionsBase.mls.LogInfo("About to play music with intro...");
         playing = true;
         yield return (object)new WaitForSeconds(0.2f);
         HUDManager.Instance.UIAudio.PlayOneShot(intro);
