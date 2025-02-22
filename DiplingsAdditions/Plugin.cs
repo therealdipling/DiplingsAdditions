@@ -13,7 +13,7 @@ namespace DiplingsAdditions
     {
         private const string modGUID = "DiplingsAdditions";
         private const string modName = "Dipling's Additions";
-        private const string modVersion = "1.0.3";
+        private const string modVersion = "1.0.4";
 
         private readonly Harmony harmony = new Harmony(modGUID);
 
