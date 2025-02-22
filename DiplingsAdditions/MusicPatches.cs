@@ -35,8 +35,10 @@ internal class MusicPatches
                         intro = Musics[0];
                         music = Musics[1];
                         break;
-                    case 2:
+                    case 4:
                         DiplingsAdditionsBase.mls.LogInfo("Dungeon type is Mineshaft.");
+                        intro = null;
+                        music = Musics[2];
                         break;
                     default:
                         DiplingsAdditionsBase.mls.LogError("Unknown dungeon type. No music can play.");
@@ -48,6 +50,14 @@ internal class MusicPatches
                     {
                         ((MonoBehaviour)(object)__instance).StartCoroutine(Music.PlayLevelMusicWithIntro(intro, music));
                     }
+                    else
+                    {
+                        ((MonoBehaviour)(object)__instance).StartCoroutine(Music.PlayLevelMusic(music));
+                    }
+                }
+                else
+                {
+                    DiplingsAdditionsBase.mls.LogError("No music could be found.");
                 }
             }
         }
