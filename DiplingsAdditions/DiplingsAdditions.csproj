@@ -82,12 +82,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="levelmusics" />
-    <None Include="manifest.json" />
-    <None Include="README.md" />
+    <Content Include="Resources\icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="icon.png" />
+    <None Include="Resources\levelmusics" />
+    <None Include="Resources\manifest.json" />
+    <None Include="Resources\README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
