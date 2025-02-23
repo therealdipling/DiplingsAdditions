@@ -9,6 +9,7 @@ using UnityEngine;
 namespace DiplingsAdditions
 {
     [BepInPlugin(modGUID, modName, modVersion)]
+    [BepInDependency(LethalLib.Plugin.ModGUID)]
     public class DiplingsAdditionsBase : BaseUnityPlugin
     {
         private const string modGUID = "DiplingsAdditions";
@@ -21,8 +22,10 @@ namespace DiplingsAdditions
 
         internal static ManualLogSource mls;
 
-        internal static List<AudioClip> SoundFX;
-        internal static AssetBundle Bundle;
+        internal static List<AudioClip> Musics;
+        internal static AssetBundle MusicBundle;
+
+        internal static AssetBundle SpeakAndSpellBundle;
 
         void Awake()
         {
@@ -38,19 +41,35 @@ namespace DiplingsAdditions
             harmony.PatchAll();
             mls.LogInfo("The mod has patched successfully!");
 
-            mls.LogInfo("The asset bundle is about to load...");
-            SoundFX = new List<AudioClip>();
             string folderLocation = Instance.Info.Location;
             folderLocation = folderLocation.TrimEnd("DiplingsAdditions.dll".ToCharArray());
-            Bundle = AssetBundle.LoadFromFile(folderLocation + "levelmusics");
-            if (Bundle != null)
+
+            mls.LogInfo("The music asset bundle is about to load...");
+            Musics = new List<AudioClip>();
+            MusicBundle = AssetBundle.LoadFromFile(folderLocation + "levelmusics");
+            if (MusicBundle != null)
             {
-                SoundFX = Bundle.LoadAllAssets<AudioClip>().ToList();
-                mls.LogInfo("Asset bundle loaded successfully!");
+                Musics = MusicBundle.LoadAllAssets<AudioClip>().ToList();
+                mls.LogInfo("Music asset bundle loaded successfully!");
             }
             else
             {
-                mls.LogError("Failed to load asset bundle.");
+                mls.LogError("Failed to load music asset bundle.");
+            }
+
+            mls.LogInfo("The speak and spell asset bundle is about to load...");
+            SpeakAndSpellBundle = AssetBundle.LoadFromFile(folderLocation + "speakandspell");
+            if (SpeakAndSpellBundle != null)
+            {
+                int iRarity = 30;
+                Item MyCustomItem = SpeakAndSpellBundle.LoadAsset<Item>("directory/to/itemdataasset.asset");
+                LethalLib.Modules.NetworkPrefabs.RegisterNetworkPrefab(MyCustomItem.spawnPrefab);
+                LethalLib.Modules.Items.RegisterScrap(MyCustomItem, iRarity, LethalLib.Modules.Levels.LevelTypes.All);
+                mls.LogInfo("Speak and spell asset bundle loaded successfully!");
+            }
+            else
+            {
+                mls.LogError("Failed to load speak and spell asset bundle");
             }
         }
     }

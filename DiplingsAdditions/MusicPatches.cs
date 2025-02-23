@@ -13,7 +13,7 @@ internal class MusicPatches
     static internal bool inside = false;
     static internal AudioClip intro = null;
     static internal AudioClip music = null;
-    static internal List<AudioClip> Musics = DiplingsAdditionsBase.SoundFX;
+    static internal List<AudioClip> Musics = DiplingsAdditionsBase.Musics;
 
     [HarmonyPatch(typeof(EntranceTeleport), "TeleportPlayer")]
     [HarmonyPrefix]
